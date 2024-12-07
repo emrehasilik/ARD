@@ -1,7 +1,7 @@
 // src/components/Application.jsx
-
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
+import Header from "./Header"; // Header bileşeni içe aktarılıyor
 import AddApplication from "./AddApplication";
 
 const Application = () => {
@@ -25,15 +25,8 @@ const Application = () => {
 
       {/* Sağ İçerik Alanı */}
       <div className="flex-1 flex flex-col">
-        {/* Başlık Bölümü */}
-        <div className="bg-gray-100 p-4 shadow flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-700">Başvurular</h1>
-          <img
-            src="https://via.placeholder.com/40"
-            alt="User"
-            className="w-10 h-10 rounded-full"
-          />
-        </div>
+        {/* Header Bileşeni */}
+        <Header />
 
         {/* İçerik Bölümü */}
         <div className="bg-gray-200 flex-1 p-8">
@@ -57,7 +50,10 @@ const Application = () => {
               </thead>
               <tbody>
                 {applications.map((app, index) => (
-                  <tr key={index}>
+                  <tr
+                    key={index}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
+                  >
                     <td className="border border-gray-300 px-4 py-2">{app.tcKimlikNo}</td>
                     <td className="border border-gray-300 px-4 py-2">{`${app.adi} ${app.soyadi}`}</td>
                     <td className="border border-gray-300 px-4 py-2">{app.basvuruTuru}</td>
