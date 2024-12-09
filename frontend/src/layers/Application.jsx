@@ -41,7 +41,7 @@ const Application = () => {
               </button>
             </div>
 
-            <div className="text-gray-700 max-h-[520px] overflow-y-auto">
+            <div className="text-gray-700 max-h-[520px] max-w-[800px] overflow-y-auto">
               <table className="table-auto w-full border border-gray-300">
                 <thead className="bg-gray-100">
                   <tr>
@@ -97,9 +97,9 @@ const Application = () => {
                   <p><strong>Açıklama:</strong> {selectedDetails.dosyaAciklama}</p>
                 </div>
                 {selectedDetails.davaBilgileri && (
-                  <div className="mt-4">
-                    <h4 className="text-lg font-semibold text-gray-800 mb-2">Dava Bilgileri</h4>
-                    <p><strong>Dosya Numarası:</strong> {selectedDetails.davaBilgileri.dosyaNumarasi}</p>
+                  <div className="mt-4 grid grid-cols-1 gap-4 text-gray-700 text-sm">
+                  <h3 className="text-xl font-bold text-gray-800">Dava Bilgileri</h3>
+                  <p><strong>Dosya Numarası:</strong> {selectedDetails.davaBilgileri.dosyaNumarasi}</p>
                     <p><strong>Mahkeme:</strong> {selectedDetails.davaBilgileri.mahkeme}</p>
                     <p><strong>Mahkeme Dosya Numarası:</strong> {selectedDetails.davaBilgileri.mahkemeDosyaNo}</p>
                     <p><strong>Sonuç Açıklama:</strong> {selectedDetails.davaBilgileri.sonucuAciklama}</p>
