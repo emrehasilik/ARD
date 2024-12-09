@@ -1,8 +1,8 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Application from "./components/Application";
-import Lawyer from "./components/Lawyer";
+import Application from './layers/Application';
+import Lawyer from './layers/Lawyer';
 
 const App = () => {
   return (

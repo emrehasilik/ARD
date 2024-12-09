@@ -1,8 +1,11 @@
-// src/components/Lawyer.jsx
+// src/layers/Lawyer.jsx
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
-import AddLawyer from "./AddLawyer";
-import Header from "./Header";
+import Sidebar from "../components/Sidebar";
+import AddLawyer from "../components/AddLawyer";
+import Header from "../components/Header";
+
+
+
 
 const Lawyer = () => {
     const [showAddLawyer, setShowAddLawyer] = useState(false);
