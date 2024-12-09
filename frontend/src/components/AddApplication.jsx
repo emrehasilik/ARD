@@ -1,6 +1,7 @@
 // src/components/AddApplication.jsx
 
 import React, { useState } from "react";
+import useLawyerStore from "../stores/LawyerStore"; // Lawyer Store'u import et
 
 const AddApplication = ({ onClose, onSave }) => {
     const [formData, setFormData] = useState({
@@ -25,7 +26,10 @@ const AddApplication = ({ onClose, onSave }) => {
         },
     });
 
+    const { lawyers } = useLawyerStore(); // Lawyer Store'dan avukatları al
     const [isCourtInfoAvailable, setIsCourtInfoAvailable] = useState(false); // Checkbox state'i
+    const [isSelfApplicant, setIsSelfApplicant] = useState(false); // Başvuran Türü checkbox durumu
+    const [isCustomReason, setIsCustomReason] = useState(false); // İhlal Nedeni checkbox durumu
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -71,8 +75,6 @@ const AddApplication = ({ onClose, onSave }) => {
                 <h2 className="text-xl font-bold mb-4">Başvuru Ekle</h2>
                 <form onSubmit={handleSubmit}>
 
-
-
                     <div className="grid grid-cols-2 gap-4 mb-8">
                         {/* T.C. Kimlik No */}
                         <div>
@@ -92,7 +94,6 @@ const AddApplication = ({ onClose, onSave }) => {
                                 onChange={handleInputChange}
                             />
                         </div>
-
 
                         {/* Adı */}
                         <div>
@@ -129,14 +130,40 @@ const AddApplication = ({ onClose, onSave }) => {
                             <label className="block text-gray-700 mb-2" htmlFor="basvuranTuru">
                                 Başvuran Türü
                             </label>
-                            <input
-                                type="text"
+                            <select
                                 id="basvuranTuru"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                placeholder="Başvuran türünü girin"
                                 value={formData.detaylar.basvuranTuru}
                                 onChange={handleInputChange}
-                            />
+                                disabled={isSelfApplicant}
+                            >
+                                <option value="">Seçin</option>
+                                <option value="STK">STK</option>
+                                <option value="Basın/Medya">Basın/Medya</option>
+                                <option value="Kamu Kuruluşu">Kamu Kuruluşu</option>
+                                <option value="Baro Komisyonu">Baro Komisyonu</option>
+                            </select>
+                            <div className="mt-2">
+                                <input
+                                    type="checkbox"
+                                    id="isSelfApplicant"
+                                    className="mr-2"
+                                    checked={isSelfApplicant}
+                                    onChange={() => {
+                                        setIsSelfApplicant(!isSelfApplicant);
+                                        setFormData({
+                                            ...formData,
+                                            detaylar: {
+                                                ...formData.detaylar,
+                                                basvuranTuru: isSelfApplicant ? "" : "Mağdur/Kendisi",
+                                            },
+                                        });
+                                    }}
+                                />
+                                <label htmlFor="isSelfApplicant" className="text-gray-700">
+                                    Mağdur/Kendisi
+                                </label>
+                            </div>
                         </div>
 
                         {/* Başvuru Tarihi */}
@@ -168,53 +195,86 @@ const AddApplication = ({ onClose, onSave }) => {
                             />
                         </div>
 
-
                         {/* Takip Eden Avukat */}
                         <div>
                             <label className="block text-gray-700 mb-2" htmlFor="takipAvukat">
                                 Takip Eden Avukat
                             </label>
-                            <input
-                                type="text"
+                            <select
                                 id="takipAvukat"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                placeholder="Avukat adı"
                                 value={formData.detaylar.takipAvukat}
                                 onChange={handleInputChange}
-                            />
+                            >
+                                <option value="">Avukat Seçin</option>
+                                {lawyers.map((lawyer) => (
+                                    <option key={lawyer.tcKimlikNo} value={lawyer.name}>
+                                        {lawyer.name} {lawyer.surname}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-
 
                         {/* İhlal Nedeni */}
                         <div>
                             <label className="block text-gray-700 mb-2" htmlFor="ihlalNedeni">
                                 İhlal Nedeni
                             </label>
-                            <input
-                                type="text"
+                            <select
                                 id="ihlalNedeni"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                placeholder="İhlal nedeni"
                                 value={formData.detaylar.ihlalNedeni}
                                 onChange={handleInputChange}
-                            />
+                                disabled={isCustomReason}
+                            >
+                                <option value="">Seçin</option>
+                                <option value="Aile ve Özel Yaşam Hakkı">Aile ve Özel Yaşam Hakkı</option>
+                                <option value="Ayrımcılık">Ayrımcılık</option>
+                                <option value="Basın Özgürlüğü">Basın Özgürlüğü</option>
+                                <option value="Kadına Karşı Şiddet ve Taciz">Kadına Karşı Şiddet ve Taciz</option>
+                                <option value="Çocuğa Karşı Şiddet ve Taciz">Çocuğa Karşı Şiddet ve Taciz</option>
+                                <option value="Örgütlenme Özgürlüğü">Örgütlenme Özgürlüğü</option>
+                                <option value="İşkence ve Kötü Muamele">İşkence ve Kötü Muamele</option>
+                                <option value="Eğitim Hakkı">Eğitim Hakkı</option>
+                                <option value="Düşünce ve İfade Özgürlüğü">Düşünce ve İfade Özgürlüğü</option>
+                            </select>
+                            <div className="mt-2">
+                                <input
+                                    type="checkbox"
+                                    id="isCustomReason"
+                                    className="mr-2"
+                                    checked={isCustomReason}
+                                    onChange={() => {
+                                        setIsCustomReason(!isCustomReason);
+                                        setFormData({
+                                            ...formData,
+                                            detaylar: {
+                                                ...formData.detaylar,
+                                                ihlalNedeni: isCustomReason ? "" : "Diğer",
+                                            },
+                                        });
+                                    }}
+                                />
+                                <label htmlFor="isCustomReason" className="text-gray-700">
+                                    Yukarıdakilerden hiçbirisi ihlal/yakınma nedenim değildir.
+                                </label>
+                            </div>
                         </div>
 
-                        {/* Başvuru Türü */}
+                        {/* Başvuru Numarası */}
                         <div>
-                            <label className="block text-gray-700 mb-2" htmlFor="basvuruTuru">
-                                Başvuru Türü
+                            <label className="block text-gray-700 mb-2" htmlFor="basvuruNumarasi">
+                                Başvuru Numarası
                             </label>
                             <input
                                 type="text"
-                                id="basvuruTuru"
+                                id="basvuruNumarasi"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                placeholder="Başvuru türünü girin"
-                                value={formData.basvuruTuru}
+                                placeholder="Başvuru numarası girin"
+                                value={formData.basvuruNumarasi}
                                 onChange={handleInputChange}
                             />
                         </div>
-
 
                         {/* Dosya Ekle */}
                         <div>
@@ -241,7 +301,6 @@ const AddApplication = ({ onClose, onSave }) => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mb-8">
-
 
                         {/* Dava Bilgileri Bölümü */}
                         <div className="col-span-2">
