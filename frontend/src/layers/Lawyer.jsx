@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import AddLawyer from "../components/AddLawyer";
 import Header from "../components/Header";
@@ -8,12 +8,19 @@ const Lawyer = () => {
   const [showAddLawyer, setShowAddLawyer] = useState(false);
 
   // Zustand Store'dan gerekli veriler ve fonksiyonları al
-  const { lawyers, addLawyer, removeLawyer } = useLawyerStore();
+  const { lawyers, addLawyer, removeLawyer, getLawyer } = useLawyerStore();
 
   const handleSaveLawyer = (lawyerData) => {
     addLawyer(lawyerData); // Store'a yeni avukat ekle
     setShowAddLawyer(false);
   };
+
+  useEffect(() => {
+    // Örnek kullanım: İlk avukatı konsola yazdır
+    if (lawyers.length > 0) {
+      console.log(getLawyer(lawyers[0].tcKimlikNo));
+    }
+  }, [lawyers, getLawyer]);
 
   return (
     <div className="flex h-screen">

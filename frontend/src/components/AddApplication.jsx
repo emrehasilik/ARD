@@ -1,6 +1,6 @@
 // src/components/AddApplication.jsx
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useLawyerStore from "../stores/LawyerStore"; // Lawyer Store'u import et
 
 const AddApplication = ({ onClose, onSave }) => {
@@ -26,10 +26,35 @@ const AddApplication = ({ onClose, onSave }) => {
         },
     });
 
+
+    useEffect(() => {
+        const today = new Date().toISOString().split("T")[0];
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            detaylar: {
+                ...prevFormData.detaylar,
+                basvuruTarihi: today,
+            },
+        }));
+    }, []);
+
     const { lawyers } = useLawyerStore(); // Lawyer Store'dan avukatları al
     const [isCourtInfoAvailable, setIsCourtInfoAvailable] = useState(false); // Checkbox state'i
     const [isSelfApplicant, setIsSelfApplicant] = useState(false); // Başvuran Türü checkbox durumu
     const [isCustomReason, setIsCustomReason] = useState(false); // İhlal Nedeni checkbox durumu
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const fieldNames = {
+        tcKimlikNo: "T.C. Kimlik Numarası",
+        adi: "Adı",
+        soyadi: "Soyadı",
+        basvuruTuru: "Başvuru Türü",
+        "detaylar.basvuranTuru": "Başvuran Türü",
+        "detaylar.takipAvukat": "Takip Eden Avukat",
+        "detaylar.ihlalNedeni": "İhlal Nedeni",
+        "detaylar.basvuruyuAlan": "Başvuruyu Alan",
+        "detaylar.dosyaAciklama": "Dosya Açıklaması",
+    };
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -49,6 +74,35 @@ const AddApplication = ({ onClose, onSave }) => {
         }
     };
 
+    const validateForm = () => {
+        const requiredFields = [
+            "tcKimlikNo",
+            "adi",
+            "soyadi",
+            "detaylar.basvuranTuru",
+            "detaylar.takipAvukat",
+            "detaylar.ihlalNedeni",
+            "detaylar.basvuruyuAlan",
+            "detaylar.dosyaAciklama",
+        ];
+
+        for (const field of requiredFields) {
+            const keys = field.split(".");
+            let value = formData;
+
+            for (const key of keys) {
+                value = value[key];
+            }
+
+            if (!value) {
+                return `Lütfen ${fieldNames[field]} alanını doldurun.`;
+            }
+        }
+
+        return "";
+    };
+
+
     const handleCourtInfoChange = (e) => {
         const { id, value } = e.target;
         setFormData((prevData) => ({
@@ -64,8 +118,29 @@ const AddApplication = ({ onClose, onSave }) => {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Formun default davranışını engelliyoruz
+        e.preventDefault();
+        const error = validateForm();
+
+        if (error) {
+            setErrorMessage(error);
+            return;
+        }
+
         onSave(formData);
+        setErrorMessage("");
+        setFormData({
+            tcKimlikNo: "",
+            adi: "",
+            soyadi: "",
+            basvuruTuru: "",
+            detaylar: {
+                basvuranTuru: "",
+                takipAvukat: "",
+                ihlalNedeni: "",
+                basvuruyuAlan: "",
+                dosyaAciklama: "",
+            },
+        });
         onClose();
     };
 
@@ -164,20 +239,6 @@ const AddApplication = ({ onClose, onSave }) => {
                                     Mağdur/Kendisi
                                 </label>
                             </div>
-                        </div>
-
-                        {/* Başvuru Tarihi */}
-                        <div>
-                            <label className="block text-gray-700 mb-2" htmlFor="basvuruTarihi">
-                                Başvuru Tarihi
-                            </label>
-                            <input
-                                type="date"
-                                id="basvuruTarihi"
-                                className="w-full p-2 border border-gray-300 rounded"
-                                value={formData.detaylar.basvuruTarihi}
-                                onChange={handleInputChange}
-                            />
                         </div>
 
                         {/* Başvuruyu Alan */}
@@ -398,6 +459,8 @@ const AddApplication = ({ onClose, onSave }) => {
                             </div>
                         </div>
                     </div>
+                    {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
+
 
                     {/* Form Butonları */}
                     <div className="flex justify-end">

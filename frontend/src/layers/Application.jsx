@@ -9,6 +9,7 @@ const Application = () => {
   const [showAddApplication, setShowAddApplication] = useState(false);
   const [selectedDetails, setSelectedDetails] = useState(null);
   const [statuses, setStatuses] = useState({});
+  const [notification, setNotification] = useState(""); // Bildirim için state
 
   // Zustand Store'dan veriler ve fonksiyonları alıyoruz
   const { applications, addApplication } = useApplicationStore();
@@ -16,6 +17,8 @@ const Application = () => {
   const handleSaveApplication = (data) => {
     addApplication(data); // Veriyi store'a ekle
     setShowAddApplication(false);
+    setNotification("Başvuru Başarıyla Eklendi");
+    setTimeout(() => setNotification(""), 3000); // Bildirimi 2 saniye sonra kaldır
   };
 
   const handleShowDetails = (details) => {
@@ -46,6 +49,13 @@ const Application = () => {
       <div className="flex-1 flex flex-col">
         {/* Header Bileşeni */}
         <Header />
+
+        {/* Bildirim */}
+        {notification && (
+          <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-lg">
+            {notification}
+          </div>
+        )}
 
         {/* İçerik ve Detay Bölümü */}
         <div className="flex-1 flex flex-col bg-gray-200 p-8">
