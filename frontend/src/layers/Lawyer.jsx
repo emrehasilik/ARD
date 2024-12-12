@@ -6,6 +6,7 @@ import useLawyerStore from "../stores/LawyerStore"; // Store'u ekle
 
 const Lawyer = () => {
   const [showAddLawyer, setShowAddLawyer] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Zustand Store'dan gerekli veriler ve fonksiyonları al
   const { lawyers, addLawyer, removeLawyer, getLawyer } = useLawyerStore();
@@ -14,6 +15,17 @@ const Lawyer = () => {
     addLawyer(lawyerData); // Store'a yeni avukat ekle
     setShowAddLawyer(false);
   };
+
+  const filteredLawyers = lawyers.filter((lawyer) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const fullName = `${lawyer.name} ${lawyer.surname}`.toLowerCase();
+    return (
+      lawyer.tcKimlikNo.toLowerCase().includes(lowerCaseSearchTerm) ||
+      lawyer.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+      lawyer.surname.toLowerCase().includes(lowerCaseSearchTerm) ||
+      fullName.includes(lowerCaseSearchTerm)
+    );
+  });
 
   useEffect(() => {
     // Örnek kullanım: İlk avukatı konsola yazdır
@@ -34,7 +46,14 @@ const Lawyer = () => {
 
         {/* İçerik Alanı */}
         <div className="bg-gray-200 flex-1 p-8">
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-between mb-4">
+            <input
+              type="text"
+              placeholder="Avukat Ara"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow mr-4"
+            />
             <button
               className="px-4 py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
               onClick={() => setShowAddLawyer(true)}
@@ -57,7 +76,7 @@ const Lawyer = () => {
                 </tr>
               </thead>
               <tbody>
-                {lawyers.map((lawyer, index) => (
+                {filteredLawyers.map((lawyer, index) => (
                   <tr
                     key={index}
                     className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}

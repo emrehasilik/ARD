@@ -76,7 +76,7 @@ const Application = () => {
                   <tr>
                     <th className="border border-gray-300 px-4 py-2">T.C. Kimlik No</th>
                     <th className="border border-gray-300 px-4 py-2">Başvuruyu Yapan</th>
-                    <th className="border border-gray-300 px-4 py-2">Başvuru Türü</th>
+                    <th className="border border-gray-300 px-4 py-2">İhlal/Yakınma Nedeni</th>
                     <th className="border border-gray-300 px-4 py-2">Detaylar</th>
                     <th className="border border-gray-300 px-4 py-2">Durum</th>
                     <th className="border border-gray-300 px-4 py-2">İşlem</th>
@@ -90,7 +90,7 @@ const Application = () => {
                     >
                       <td className="border border-gray-300 px-4 py-2">{app.tcKimlikNo}</td>
                       <td className="border border-gray-300 px-4 py-2">{`${app.adi} ${app.soyadi}`}</td>
-                      <td className="border border-gray-300 px-4 py-2">{app.basvuruTuru}</td>
+                      <td className="border border-gray-300 px-4 py-2">{app.ihlalNedeni}</td>
                       <td className="border border-gray-300 px-4 py-2">
                         <button
                           className="text-blue-500 hover:underline"
@@ -139,11 +139,11 @@ const Application = () => {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 gap-4 text-gray-700 text-sm">
+                  <p><strong>Başvuru Numarası:</strong> {selectedDetails.basvuruNumarasi}</p>
                   <p><strong>Başvuran Türü:</strong> {selectedDetails.basvuranTuru}</p>
                   <p><strong>Başvuru Tarihi:</strong> {selectedDetails.basvuruTarihi}</p>
                   <p><strong>Başvuruyu Alan:</strong> {selectedDetails.basvuruyuAlan}</p>
                   <p><strong>Takip Eden Avukat:</strong> {selectedDetails.takipAvukat}</p>
-                  <p><strong>İhlal Nedeni:</strong> {selectedDetails.ihlalNedeni}</p>
                   <p><strong>Açıklama:</strong> {selectedDetails.dosyaAciklama}</p>
                 </div>
                 {selectedDetails.davaBilgileri && (

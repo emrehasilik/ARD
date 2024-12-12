@@ -8,12 +8,12 @@ const AddApplication = ({ onClose, onSave }) => {
         tcKimlikNo: "",
         adi: "",
         soyadi: "",
-        basvuruTuru: "",
+        ihlalNedeni: "",
         detaylar: {
+            basvuruNumarasi: "",
             basvuranTuru: "",
             basvuruTarihi: "",
             takipAvukat: "",
-            ihlalNedeni: "",
             basvuruyuAlan: "",
             dosyaAciklama: "",
             davaBilgileri: {
@@ -48,7 +48,7 @@ const AddApplication = ({ onClose, onSave }) => {
         tcKimlikNo: "T.C. Kimlik Numarası",
         adi: "Adı",
         soyadi: "Soyadı",
-        basvuruTuru: "Başvuru Türü",
+        ihlalNedeni: "İhlal/Yakınma Nedeni",
         "detaylar.basvuranTuru": "Başvuran Türü",
         "detaylar.takipAvukat": "Takip Eden Avukat",
         "detaylar.ihlalNedeni": "İhlal Nedeni",
@@ -79,9 +79,9 @@ const AddApplication = ({ onClose, onSave }) => {
             "tcKimlikNo",
             "adi",
             "soyadi",
+            "ihlalNedeni",
             "detaylar.basvuranTuru",
             "detaylar.takipAvukat",
-            "detaylar.ihlalNedeni",
             "detaylar.basvuruyuAlan",
             "detaylar.dosyaAciklama",
         ];
@@ -132,11 +132,11 @@ const AddApplication = ({ onClose, onSave }) => {
             tcKimlikNo: "",
             adi: "",
             soyadi: "",
-            basvuruTuru: "",
+            ihlalNedeni: "",
             detaylar: {
+                basvuruNumarasi: "",
                 basvuranTuru: "",
                 takipAvukat: "",
-                ihlalNedeni: "",
                 basvuruyuAlan: "",
                 dosyaAciklama: "",
             },
@@ -279,12 +279,12 @@ const AddApplication = ({ onClose, onSave }) => {
                         {/* İhlal Nedeni */}
                         <div>
                             <label className="block text-gray-700 mb-2" htmlFor="ihlalNedeni">
-                                İhlal Nedeni
+                                İhlal/Yakınma Nedeni
                             </label>
                             <select
                                 id="ihlalNedeni"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                value={formData.detaylar.ihlalNedeni}
+                                value={formData.ihlalNedeni}
                                 onChange={handleInputChange}
                                 disabled={isCustomReason}
                             >
