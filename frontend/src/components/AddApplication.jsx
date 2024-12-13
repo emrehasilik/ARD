@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import useLawyerStore from "../stores/LawyerStore";
-import DetailsForm from "./ApplicationDetailsFormDetailsForm";
-import FormField from "./ApplicationFormFieldFormField";
+import DetailsForm from "./ApplicationDetailsForm";
+import FormField from "./ApplicationFormField";
 import { validateForm } from "../utils/validation";
 
 const AddApplication = ({ onClose, onSave }) => {

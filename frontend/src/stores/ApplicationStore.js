@@ -9,7 +9,10 @@ const useApplicationStore = create((set, get) => ({
   // Başvuru ekleme fonksiyonu
   addApplication: (application) =>
     set((state) => ({
-      applications: [...state.applications, application],
+      applications: [
+        ...state.applications,
+        { ...application, status: "Bekliyor" }, // Varsayılan durum "Bekliyor"
+      ],
     })),
 
   // Başvuru silme fonksiyonu
@@ -25,6 +28,14 @@ const useApplicationStore = create((set, get) => ({
     set((state) => ({
       applications: state.applications.map((app) =>
         app.tcKimlikNo === tcKimlikNo ? { ...app, ...updatedApplication } : app
+      ),
+    })),
+
+  // Başvuru durumunu güncelleme fonksiyonu
+  updateApplicationStatus: (tcKimlikNo, newStatus) =>
+    set((state) => ({
+      applications: state.applications.map((app) =>
+        app.tcKimlikNo === tcKimlikNo ? { ...app, status: newStatus } : app
       ),
     })),
 

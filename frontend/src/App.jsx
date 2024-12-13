@@ -3,6 +3,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Application from './layers/Application';
 import Lawyer from './layers/Lawyer';
+import Case from "./layers/Case";
+
 
 const App = () => {
   return (
@@ -10,7 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/basvurular" element={<Application />} />
         <Route path="/avukatlar" element={<Lawyer />} />
-        <Route path="/davalar" element={<Lawyer />} />
+        <Route path="/davalar" element={<Case />} />
         <Route path="/medya-taramasi" element={<Lawyer />} />
         <Route path="/stk-verileri" element={<Lawyer />} />
         <Route path="/baro-komisyonlari" element={<Lawyer />} />

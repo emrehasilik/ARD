@@ -26,8 +26,11 @@ const Application = () => {
   };
 
   const handleStatusChange = (tcKimlikNo, status) => {
+    // Zustand Store'dan güncelleme fonksiyonunu çağırıyoruz
+    useApplicationStore.getState().updateApplicationStatus(tcKimlikNo, status);
     setStatuses((prevStatuses) => ({ ...prevStatuses, [tcKimlikNo]: status }));
   };
+  
 
   const getStatusClass = (status) => {
     switch (status) {
