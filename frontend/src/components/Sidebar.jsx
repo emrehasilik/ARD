@@ -24,32 +24,6 @@ const Sidebar = () => {
           <li className="py-2 px-4 hover:bg-blue-100 cursor-pointer">
             <Link to="/davalar" className="block w-full h-full text-gray-700 hover:text-black">Davalar</Link>
           </li>
-          <li 
-            className="py-2 px-4 hover:bg-blue-100 cursor-pointer relative"
-            onMouseEnter={() => setIsDropdownOpen(true)}
-            onMouseLeave={() => setIsDropdownOpen(false)}
-          >
-            <div className="flex justify-between items-center w-full h-full">
-              <Link to="#" className="text-gray-700 hover:text-black w-full h-full">Hak İhlali İzleme</Link>
-              <span className="ml-2 text-black transition-transform duration-200 transform hover:scale-125">⮞</span>
-            </div>
-            {isDropdownOpen && (
-              <ul className="absolute top-0 left-full mt-0 ml-0 bg-white shadow rounded w-48">
-                <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                  <Link to="/medya-taramasi" className="block w-full h-full text-gray-700 hover:text-black">Medya Taraması</Link>
-                </li>
-                <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                  <Link to="/stk-verileri" className="block w-full h-full text-gray-700 hover:text-black">STK Verileri</Link>
-                </li>
-                <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                  <Link to="/baro-komisyonlari" className="block w-full h-full text-gray-700 hover:text-black">Baro Komisyonları</Link>
-                </li>
-                <li className="py-2 px-4 hover:bg-gray-100 cursor-pointer">
-                  <Link to="/kamu-kurumlari" className="block w-full h-full text-gray-700 hover:text-black">Kamu Kurumları</Link>
-                </li>
-              </ul>
-            )}
-          </li>
         </ul>
       </div>
 

@@ -10,11 +10,7 @@ const Header = () => {
     "/basvurular": "Başvurular",
     "/avukatlar": "Avukatlar",
     "/davalar": "Davalar",
-    "/hak-ihlalleri": "Hak İhlalleri",
-    "/medya-taramasi": "Hak İhlal İzleme > Medya Taraması",
-    "/stk-verileri": "Hak İhlal İzleme > STK Verileri",
-    "/baro-komisyonlari": "Hak İhlal İzleme > Baro Komisyonları",
-    "/kamu-kurumlari": "Hak İhlal İzleme > Kamu Kurumları",
+    
   };
 
   // Anlık yol için başlık belirleniyor
