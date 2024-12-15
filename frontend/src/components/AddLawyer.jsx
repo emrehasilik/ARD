@@ -1,5 +1,5 @@
-// src/components/AddLawyer.jsx
 import React, { useState } from "react";
+import { FaDice, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AddLawyer = ({ onClose, onSave }) => {
     const [formData, setFormData] = useState({
@@ -7,8 +7,30 @@ const AddLawyer = ({ onClose, onSave }) => {
         surname: "",
         phone: "",
         email: "",
+        password: "", // Yeni alan: Şifre
         specialization: "",
     });
+
+    const [showPassword, setShowPassword] = useState(false); // Şifreyi gösterme durumu
+
+    // Rastgele şifre oluşturma fonksiyonu
+    const generatePassword = () => {
+        const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+        let password = "";
+        for (let i = 0; i < 12; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            password += charset[randomIndex];
+        }
+        return password;
+    };
+
+    const handleGeneratePassword = () => {
+        const newPassword = generatePassword();
+        setFormData({
+            ...formData,
+            password: newPassword, // Şifre inputuna otomatik olarak yazılıyor
+        });
+    };
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
@@ -89,7 +111,7 @@ const AddLawyer = ({ onClose, onSave }) => {
                                 type="text"
                                 id="phone"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                placeholder="Telefon numarasını girin"
+                                placeholder="(5xx) xxx xx xx"
                                 maxLength="10"
                                 onInput={(e) => {
                                     e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 11);
@@ -98,6 +120,7 @@ const AddLawyer = ({ onClose, onSave }) => {
                                 onChange={handleInputChange}
                             />
                         </div>
+
                         {/* E-posta */}
                         <div>
                             <label className="block text-gray-700 mb-2" htmlFor="email">
@@ -107,13 +130,42 @@ const AddLawyer = ({ onClose, onSave }) => {
                                 type="email"
                                 id="email"
                                 className="w-full p-2 border border-gray-300 rounded"
-                                placeholder="E-posta adresini girin"
+                                placeholder="E-pposta adresini girin"
                                 value={formData.email}
                                 onChange={handleInputChange}
                             />
                         </div>
 
-
+                        {/* Şifre */}
+                        <div>
+                            <label className="block text-gray-700 mb-2" htmlFor="password">
+                                Şifre
+                            </label>
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    className="w-full p-2 border border-gray-300 rounded"
+                                    placeholder="Şifre girin"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                />
+                                <button
+                                    type="button"
+                                    className="w-12 h-10 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600 flex items-center justify-center"
+                                    onClick={handleGeneratePassword}
+                                >
+                                    <FaDice />
+                                </button>
+                                <button
+                                    type="button"
+                                    className="w-12 h-10 bg-gray-500 text-white font-semibold rounded-full hover:bg-gray-600 flex items-center justify-center"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Butonlar */}
