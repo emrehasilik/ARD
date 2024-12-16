@@ -112,7 +112,7 @@ const Lawyer = () => {
           </div>
 
           {/* Avukatlar Tablosu */}
-          <div className="text-gray-700">
+          <div className="text-gray-700 max-h-[520px] w-full overflow-y-auto">
             <table className="table-auto w-full border border-gray-300">
               <thead className="bg-gray-100">
                 <tr>

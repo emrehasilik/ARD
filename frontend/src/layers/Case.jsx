@@ -9,11 +9,25 @@ const Case = () => {
   const { applications, updateApplication, removeApplication } = useApplicationStore();
   const [selectedDetails, setSelectedDetails] = useState(null); // Detayları göstermek için state
   const [editingCase, setEditingCase] = useState(null); // Düzenleme için state
+  const [searchCriteria, setSearchCriteria] = useState("tcKimlikNo");
+  const [searchValue, setSearchValue] = useState("");
 
   // Onaylanan başvuruları filtreliyoruz
   const approvedCases = applications.filter(
     (app) => app.status === "Onaylandı"
-  );
+  ).filter((app) => {
+    if (!searchValue) return true;
+    const valueToSearch =
+      searchCriteria === "tcKimlikNo"
+        ? app.tcKimlikNo
+        : searchCriteria === "adiSoyadi"
+        ? `${app.adi} ${app.soyadi}`
+        : searchCriteria === "ihlalNedeni"
+        ? app.ihlalNedeni
+        : app.detaylar.takipAvukat;
+
+    return valueToSearch.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   const handleShowDetails = (caseItem) => {
     setSelectedDetails(caseItem.detaylar); // Detayları ayarla
@@ -40,16 +54,36 @@ const Case = () => {
       <div className="flex-1 flex flex-col">
         <Header />
         <div className="bg-gray-200 flex-1 p-8">
-          <h2 className="text-2xl font-bold mb-4">Dava Listesi</h2>
+          <div className="flex justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <select
+                className="border border-gray-300 rounded px-4 py-2"
+                value={searchCriteria}
+                onChange={(e) => setSearchCriteria(e.target.value)}
+              >
+                <option value="tcKimlikNo">T.C. Kimlik No</option>
+                <option value="adiSoyadi">Başvuruyu Yapan</option>
+                <option value="ihlalNedeni">İhlal Nedeni</option>
+                <option value="takipAvukat">Takip Eden Avukat</option>
+              </select>
+              <input
+                type="text"
+                className="border border-gray-300 rounded px-4 py-2 flex-grow mr-4"
+                placeholder="Arama yapın"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            </div>
+          </div>
           {approvedCases.length === 0 ? (
             <p className="text-gray-600">Henüz onaylanan bir dava yok.</p>
           ) : (
-            <div>
+            <div className="text-gray-700 max-h-[520px] w-full overflow-y-auto">
               <table className="table-auto w-full border border-gray-300">
                 <thead className="bg-gray-100">
                   <tr>
                     <th className="border border-gray-300 px-4 py-2">T.C. Kimlik No</th>
-                    <th className="border border-gray-300 px-4 py-2">Ad Soyad</th>
+                    <th className="border border-gray-300 px-4 py-2">Başvuruyu Yapan</th>
                     <th className="border border-gray-300 px-4 py-2">İhlal Nedeni</th>
                     <th className="border border-gray-300 px-4 py-2">Detaylar</th>
                     <th className="border border-gray-300 px-4 py-2">Takip Eden Avukat</th>
